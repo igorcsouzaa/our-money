@@ -37,6 +37,7 @@ type Transaction = {
   amount: number
   type: TransactionType
   createdBy: string
+  createdAt: string
   owner: string
 }
 
@@ -121,7 +122,7 @@ function App() {
 
       const [{ data: categoryRows, error: categoriesError }, { data: transactionRows, error: transactionsError }, { data: memberRows }] = await Promise.all([
         supabase.from('categories').select('id, name, color').eq('household_id', resolvedHouseholdId).order('name'),
-        supabase.from('transactions').select('id, description, amount, type, transaction_date, created_by, category_id, categories(name)').eq('household_id', resolvedHouseholdId).order('transaction_date', { ascending: false }),
+        supabase.from('transactions').select('id, description, amount, type, transaction_date, created_at, created_by, category_id, categories(name)').eq('household_id', resolvedHouseholdId).order('transaction_date', { ascending: false }).order('created_at', { ascending: false }),
         supabase.from('household_members').select('user_id').eq('household_id', resolvedHouseholdId),
       ])
       if (categoriesError) throw categoriesError
@@ -146,6 +147,7 @@ function App() {
           categoryId: row.category_id ? Number(row.category_id) : null,
           date: String(row.transaction_date), amount: Number(row.amount),
           type: row.type as TransactionType, createdBy,
+          createdAt: String(row.created_at),
           owner: names[createdBy] ?? 'Nós',
         }
       }))
@@ -167,10 +169,22 @@ function App() {
     return { income, expense, balance: income - expense }
   }, [monthTransactions])
 
+  const memberSummaries = useMemo(() => Object.entries(profileNames)
+    .sort(([firstId], [secondId]) => firstId === session?.user.id ? -1 : secondId === session?.user.id ? 1 : 0)
+    .map(([userId, name]) => {
+      const memberTransactions = monthTransactions.filter((item) => item.createdBy === userId)
+      const income = memberTransactions.filter((item) => item.type === 'income').reduce((sum, item) => sum + item.amount, 0)
+      const expense = memberTransactions.filter((item) => item.type === 'expense').reduce((sum, item) => sum + item.amount, 0)
+      return { userId, name, income, expense, balance: income - expense }
+    }), [monthTransactions, profileNames, session?.user.id])
+
   const filteredTransactions = useMemo(() => monthTransactions
     .filter((item) => typeFilter === 'all' || item.type === typeFilter)
     .filter((item) => `${item.title} ${item.category} ${item.owner}`.toLowerCase().includes(query.toLowerCase()))
-    .sort((a, b) => b.date.localeCompare(a.date)), [monthTransactions, query, typeFilter])
+    .sort((a, b) => {
+      const dateOrder = b.date.localeCompare(a.date)
+      return dateOrder !== 0 ? dateOrder : b.createdAt.localeCompare(a.createdAt)
+    }), [monthTransactions, query, typeFilter])
 
   const chartData = useMemo(() => {
     const grouped = new Map<number, { income: number; expense: number }>()
@@ -217,7 +231,7 @@ function App() {
       id: saved.id, title: payload.description, amount: payload.amount,
       category: selectedCategory?.name ?? 'Sem categoria', categoryId,
       date: payload.transaction_date, type: payload.type as TransactionType,
-      createdBy: session.user.id, owner: myName,
+      createdBy: session.user.id, createdAt: new Date().toISOString(), owner: myName,
     }])
     form.reset()
     setIsModalOpen(false)
@@ -283,6 +297,17 @@ function App() {
             <article className="summary-card balance-card"><span className="summary-icon purple"><WalletCards size={21} /></span><p>Ficou com vocês</p><strong>{currency.format(totals.balance)}</strong><small>o que entrou menos o que saiu</small></article>
             <article className="summary-card"><span className="summary-icon green"><ArrowDownLeft size={21} /></span><p>Entrou</p><strong>{currency.format(totals.income)}</strong><small>tudo que vocês receberam</small></article>
             <article className="summary-card"><span className="summary-icon orange"><ArrowUpRight size={21} /></span><p>Saiu</p><strong>{currency.format(totals.expense)}</strong><small>cada gasto anotado</small></article>
+          </section>
+
+          <section className="people-section" aria-labelledby="people-title">
+            <div className="people-heading"><div><p className="eyebrow">CADA UM DE VOCÊS</p><h2 id="people-title">As duas contas, lado a lado</h2></div><span>Calculado por quem fez cada anotação</span></div>
+            <div className="people-grid">
+              {memberSummaries.map((member, index) => <article className={`person-card person-card--${index + 1}`} key={member.userId}>
+                <div className="person-card__top"><span className="person-avatar">{member.name.slice(0, 2).toUpperCase()}</span><div><strong>{member.name}</strong><small>{member.userId === session.user.id ? 'Sua conta' : 'Outra conta'}</small></div></div>
+                <div className="person-balance"><span>Saldo individual</span><strong className={member.balance < 0 ? 'negative-balance' : ''}>{currency.format(member.balance)}</strong></div>
+                <div className="person-breakdown"><span><i className="income-mark"><ArrowDownLeft size={14}/></i><span>Entrou<small>{currency.format(member.income)}</small></span></span><span><i className="expense-mark"><ArrowUpRight size={14}/></i><span>Saiu<small>{currency.format(member.expense)}</small></span></span></div>
+              </article>)}
+            </div>
           </section>
 
           {monthTransactions.length === 0 ? <section className="panel first-entry">
