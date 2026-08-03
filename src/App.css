@@ -82,3 +82,94 @@ main { min-height: 100vh; margin-left: 248px; }
 }
 
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto!important; transition: none!important; } }
+
+/* Tema noturno — roxo profundo */
+.intimate-shell {
+  --ink: #f4eff8;
+  --muted: #a79caf;
+  --line: #30243f;
+  --purple: #9b70e5;
+  --green: #70c5a3;
+  --orange: #f19a79;
+  color: var(--ink);
+  background: radial-gradient(circle at 76% -10%, #291944 0, transparent 34%), #0f0b16;
+}
+.intimate-shell main { background: transparent; }
+.intimate-sidebar { background: #130e1c; border-color: var(--line); }
+.intimate-sidebar .brand__mark { color: #f5eeff; background: linear-gradient(145deg,#a77bef,#7146bd); box-shadow: 0 8px 22px rgba(137,83,218,.28); }
+.intimate-sidebar .nav-label { color: #71667e; }
+.intimate-sidebar .nav-item { color: #a99db5; }
+.intimate-sidebar .nav-item:hover { color: #f5f0f8; background: #21172d; }
+.intimate-sidebar .nav-item.active { color: #c7aaff; background: #281b3a; }
+.intimate-sidebar .sidebar-note { color: #c3aadb; background: #21162d; }
+.intimate-sidebar .profile { border-color: var(--line); }
+.intimate-sidebar .profile small { color: #897e94; }
+.intimate-sidebar .logout-button { color: #9689a1; }
+.intimate-sidebar .logout-button:hover { color: #f2a28c; background: #321b26; }
+.intimate-topbar { background: rgba(16,11,23,.84); border-color: var(--line); box-shadow: 0 8px 28px rgba(4,2,8,.18); }
+.intimate-shell .icon-btn { color: #b4a7c0; border-color: #342743; background: #1a1324; }
+.intimate-shell .primary-btn { background: linear-gradient(135deg,#a678ef,#7c4acb); box-shadow: 0 8px 22px rgba(124,74,203,.24); }
+.intimate-shell .primary-btn:hover { background: linear-gradient(135deg,#b58af6,#8957d6); }
+.intimate-shell .eyebrow { color: #b894f3!important; }
+.intimate-shell .month-switcher { color: #eee8f3; border-color: var(--line); background: #191221; }
+.intimate-shell .month-switcher button { color: #a99db4; }
+.intimate-shell .month-switcher button:hover { background: #271c34; }
+.intimate-shell .summary-card,
+.intimate-shell .panel { color: var(--ink); border-color: var(--line); background: linear-gradient(145deg,#191221,#17101f); box-shadow: 0 12px 35px rgba(3,1,7,.18); }
+.intimate-shell .balance-card { border-left-color: #a577ed; background: linear-gradient(135deg,#21152e,#181020); }
+.intimate-shell .summary-card > strong { color: #faf7fc; }
+.intimate-shell .summary-card > small { color: #887e92; }
+.intimate-shell .summary-icon.purple { color: #c2a5f5; background: #302047; }
+.intimate-shell .summary-icon.green { color: #75cbaa; background: #183329; }
+.intimate-shell .summary-icon.orange { color: #f1a084; background: #38221f; }
+.intimate-shell .panel-heading p,
+.intimate-shell .transaction-info span,
+.intimate-shell .transaction time { color: #8f8499; }
+.intimate-shell .legend { color: #a69aae; }
+.intimate-shell .category-list span { color: #b8adbf; }
+.intimate-shell .category-list i { background: #2b2235; }
+.intimate-shell .category-list b { background: linear-gradient(90deg,#8d5dd7,#b88bf4); }
+.intimate-shell .soft-empty,
+.intimate-shell .no-results { color: #8d8297; }
+.intimate-shell .first-entry-art { color: #c8a6e1; background: #2b1d3a; }
+.intimate-shell .search,
+.intimate-shell .select-wrap select { color: #ddd5e3; border-color: #352944; background: #130e1b; }
+.intimate-shell .search input { color: #f4eff8; }
+.intimate-shell .search input::placeholder { color: #716779; }
+.intimate-shell .select-wrap svg { color: #8f8399; }
+.intimate-shell .transaction { border-color: #282030; }
+.intimate-shell .delete-transaction { color: #756b7e; }
+.intimate-shell .delete-transaction:hover { color: #f19a79; background: #34202a; }
+.intimate-shell .text-button { color: #b793ef; }
+.intimate-shell .error-banner { color: #ffc0ad; border-color: #623b47; background: #321b26; }
+.intimate-shell .error-banner button { color: #ffc0ad; }
+.intimate-shell .modal-layer { background: rgba(5,2,9,.72); }
+.intimate-shell .modal { color: var(--ink); border-color: #3a2b4b; background: #17101f; box-shadow: 0 28px 80px rgba(0,0,0,.48); }
+.intimate-shell .modal form > label,
+.intimate-shell .form-grid label { color: #c8becf; }
+.intimate-shell .modal input,
+.intimate-shell .modal select { color: #f4eff8; border-color: #3a2d48; background: #100b17; }
+.intimate-shell .modal input::placeholder { color: #6f6578; }
+.intimate-shell .type-choice span { color: #aaa0b3; border-color: #382b47; background: #120c1a; }
+.intimate-shell .type-choice input:checked + span { color: #d0b6fa; border-color: #8b60ce; background: #2a1c3b; }
+.intimate-shell .secondary-btn { color: #bdb2c5; border-color: #392c47; background: #1c1426; }
+.intimate-shell .mobile-add { background: linear-gradient(135deg,#a678ef,#7541c5); box-shadow: 0 12px 28px rgba(125,70,202,.38); }
+.app-loading { color: #a99db3; background: #0f0b16; }
+.app-loading span { border-color: #332542; border-top-color: #a678ef; }
+
+.intimate-auth { color: #f4eff8; background: #0f0b16; }
+.intimate-auth .auth-visual { background: radial-gradient(circle at 80% 15%,rgba(175,113,239,.25),transparent 32%),linear-gradient(145deg,#150d20,#241334 55%,#42205d); }
+.intimate-auth .auth-form-side { background: #0f0b16; }
+.intimate-auth .auth-card h2 { color: #f7f2fa; }
+.intimate-auth .auth-card > p:not(.eyebrow) { color: #a79caf; }
+.intimate-auth .auth-card form label { color: #c9becf; }
+.intimate-auth .auth-card input { color: #f4eff8; border-color: #392b48; background: #17101f; }
+.intimate-auth .auth-card input::placeholder { color: #6f6578; }
+.intimate-auth .auth-switch { color: #b894f3; }
+.intimate-auth .form-message.error { color: #ffc0ad; background: #321b26; }
+.intimate-auth .form-message.success { color: #92d8bd; background: #173129; }
+
+@media (max-width: 680px) {
+  .intimate-auth .auth-page { background: #0f0b16; }
+  .intimate-auth .auth-card { border-color: #362943; background: #17101f; box-shadow: 0 18px 45px rgba(0,0,0,.35); }
+}

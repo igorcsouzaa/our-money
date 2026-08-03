@@ -41,10 +41,10 @@ type Transaction = {
 }
 
 const categoryMeta: Record<string, { icon: typeof CreditCard; color: string; soft: string }> = {
-  Moradia: { icon: Home, color: '#7b68b7', soft: '#f0edf8' },
-  Alimentação: { icon: Utensils, color: '#d97854', soft: '#fff0ea' },
-  Renda: { icon: TrendingUp, color: '#468a72', soft: '#e8f3ee' },
-  Outros: { icon: CreditCard, color: '#6f7e87', soft: '#edf1f3' },
+  Moradia: { icon: Home, color: '#b89cff', soft: '#2b2140' },
+  Alimentação: { icon: Utensils, color: '#f19a79', soft: '#35201f' },
+  Renda: { icon: TrendingUp, color: '#70c5a3', soft: '#173129' },
+  Outros: { icon: CreditCard, color: '#a9a0b4', soft: '#292330' },
 }
 
 const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -288,7 +288,7 @@ function App() {
           {monthTransactions.length === 0 ? <section className="panel first-entry">
             <div className="first-entry-art"><span>♡</span></div><p className="eyebrow">UM COMEÇO TRANQUILO</p><h2>Este mês ainda está em branco.</h2><p>Anote primeiro o que vocês receberam. Depois, registre cada gasto conforme ele acontecer.</p><button className="primary-btn" onClick={() => setIsModalOpen(true)}><Plus size={17} />Fazer a primeira anotação</button>
           </section> : <section className="dashboard-grid intimate-grid">
-            <article className="panel chart-panel"><div className="panel-heading"><div><h2>O mês tomando forma</h2><p>Acumulado do que entrou e saiu</p></div><div className="legend"><span><i className="dot green-dot" />Entrou</span><span><i className="dot orange-dot" />Saiu</span></div></div><div className="chart-wrap"><ResponsiveContainer width="100%" height="100%"><AreaChart data={chartData} margin={{ top: 12, right: 4, bottom: 0, left: 4 }}><defs><linearGradient id="income" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#468a72" stopOpacity={0.2}/><stop offset="95%" stopColor="#468a72" stopOpacity={0}/></linearGradient></defs><CartesianGrid vertical={false} stroke="#f0eee9"/><XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill:'#908d87', fontSize:12 }}/><Tooltip formatter={(value) => currency.format(Number(value))} contentStyle={{ borderRadius:12, border:'1px solid #ebe7df' }}/><Area type="monotone" dataKey="receitas" stroke="#468a72" strokeWidth={2.5} fill="url(#income)"/><Area type="monotone" dataKey="despesas" stroke="#d97854" strokeWidth={2.5} fill="transparent"/></AreaChart></ResponsiveContainer></div></article>
+            <article className="panel chart-panel"><div className="panel-heading"><div><h2>O mês tomando forma</h2><p>Acumulado do que entrou e saiu</p></div><div className="legend"><span><i className="dot green-dot" />Entrou</span><span><i className="dot orange-dot" />Saiu</span></div></div><div className="chart-wrap"><ResponsiveContainer width="100%" height="100%"><AreaChart data={chartData} margin={{ top: 12, right: 4, bottom: 0, left: 4 }}><defs><linearGradient id="income" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#70c5a3" stopOpacity={0.22}/><stop offset="95%" stopColor="#70c5a3" stopOpacity={0}/></linearGradient></defs><CartesianGrid vertical={false} stroke="#2b2138"/><XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill:'#9c91a8', fontSize:12 }}/><Tooltip formatter={(value) => currency.format(Number(value))} contentStyle={{ borderRadius:12, border:'1px solid #382b48', background:'#1b1426', color:'#f4eff8' }}/><Area type="monotone" dataKey="receitas" stroke="#70c5a3" strokeWidth={2.5} fill="url(#income)"/><Area type="monotone" dataKey="despesas" stroke="#f19a79" strokeWidth={2.5} fill="transparent"/></AreaChart></ResponsiveContainer></div></article>
             <article className="panel category-panel"><div className="panel-heading"><div><h2>Para onde foi</h2><p>Gastos por categoria</p></div></div>{categoryTotals.length ? <div className="category-list">{categoryTotals.map(([name, value]) => <div key={name}><span>{name}</span><strong>{currency.format(value)}</strong><i><b style={{ width: `${totals.expense ? value / totals.expense * 100 : 0}%` }}/></i></div>)}</div> : <div className="soft-empty">Quando houver gastos, eles aparecem aqui.</div>}</article>
           </section>}
         </>}
